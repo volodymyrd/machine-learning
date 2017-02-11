@@ -62,9 +62,9 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-X = [ones(m, 1) X];
+X1 = [ones(m, 1) X];
 
-z2 = X * Theta1';
+z2 = X1 * Theta1';
 a2 = sigmoid(z2);
 
 a2 = [ones(m, 1) a2];
@@ -74,11 +74,43 @@ h = sigmoid(z3);
 for i = 1:m
   yk = zeros(1, num_labels);
   yk(y(i)) = 1;
+  delta3 = zeros(num_labels, 1);
   for k = 1:num_labels
     J = J - yk(k) * log(h(i, k)) - (1 - yk(k)) * log(1 - h(i, k));
+    delta3(k) = h(i, k) - yk(k);
   endfor
+  
+  
+  delta2 = Theta2' * delta3;
+  %remove delta2(0)
+  delta2 = delta2(2:end, :);
+  delta2 = delta2 .* (sigmoidGradient(z2(i, :)))';
+  Theta1_grad = Theta1_grad + delta2 * X1(i, :);
+  Theta2_grad = Theta2_grad + delta3 * a2(i, :);
 endfor
 J = J / m;
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
+
+if lambda != 0
+  %fprintf('lambda is not 0, making regularization...\n');
+  s = 0;
+  for i = 1 : size(Theta1, 1)
+    for j = 2 : size(Theta1, 2)
+      s = s + Theta1(i, j)^2;
+    endfor
+  endfor
+  
+  for i = 1 : size(Theta2, 1)
+    for j = 2 : size(Theta2, 2)
+      s = s + Theta2(i, j)^2;
+    endfor
+  endfor
+  
+  s = lambda * s / (2 * m);
+  
+  J = J + s;
+endif
 
 
 
