@@ -89,8 +89,6 @@ for i = 1:m
   Theta2_grad = Theta2_grad + delta3 * a2(i, :);
 endfor
 J = J / m;
-Theta1_grad = Theta1_grad / m;
-Theta2_grad = Theta2_grad / m;
 
 if lambda != 0
   %fprintf('lambda is not 0, making regularization...\n');
@@ -107,9 +105,18 @@ if lambda != 0
     endfor
   endfor
   
-  s = lambda * s / (2 * m);
   
-  J = J + s;
+  J = J + lambda * s / (2 * m);
+  
+  Theta1_ = Theta1;
+  Theta2_ = Theta2;
+  Theta1_(:, 1) = 0;
+  Theta2_(:, 1) = 0;
+  Theta1_grad = Theta1_grad / m + lambda * Theta1_ / m;
+  Theta2_grad = Theta2_grad / m + lambda * Theta2_ / m;
+else
+  Theta1_grad = Theta1_grad / m;
+  Theta2_grad = Theta2_grad / m;
 endif
 
 
