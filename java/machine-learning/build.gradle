@@ -1,0 +1,42 @@
+defaultTasks 'clean', 'build'
+
+subprojects {
+    ext {
+        versions = [
+            junit : '4.12',
+            log_slf4j: '1.7.12',
+        ]
+
+        libs = [:]
+
+        libs.logger = ["org.slf4j:slf4j-simple:${versions.log_slf4j}"]
+
+        libs.test = ["junit:junit:${versions.junit}"]
+    }
+
+    // Configuring java
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    sourceCompatibility = targetCompatibility = 1.8
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    task wrapper(type: Wrapper) {
+	    gradleVersion = '2.10'
+    }
+
+    buildDir = 'target'
+}
