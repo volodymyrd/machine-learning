@@ -1,3 +1,5 @@
 dependencies {
+    compile libs.math
+
     testCompile libs.test
 }

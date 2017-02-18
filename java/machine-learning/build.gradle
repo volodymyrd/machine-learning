@@ -5,6 +5,7 @@ subprojects {
         versions = [
             junit : '4.12',
             log_slf4j: '1.7.12',
+            ojalgo: '42.0.0'
         ]
 
         libs = [:]
@@ -12,6 +13,8 @@ subprojects {
         libs.logger = ["org.slf4j:slf4j-simple:${versions.log_slf4j}"]
 
         libs.test = ["junit:junit:${versions.junit}"]
+
+        libs.math = ["org.ojalgo:ojalgo:${versions.ojalgo}"]
     }
 
     // Configuring java

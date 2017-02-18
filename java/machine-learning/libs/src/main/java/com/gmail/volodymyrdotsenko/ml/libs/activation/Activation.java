@@ -1,4 +1,4 @@
-package com.gmail.volodymyrdotsenko.ml.nnw;
+package com.gmail.volodymyrdotsenko.ml.libs.activation;
 
 import java.util.HashMap;
 import java.util.Map;
