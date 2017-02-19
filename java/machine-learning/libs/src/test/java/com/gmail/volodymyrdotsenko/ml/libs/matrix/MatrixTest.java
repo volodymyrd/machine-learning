@@ -36,11 +36,6 @@ public class MatrixTest {
     }
 
     @Test
-    public void testExp() {
-        assertEquals(Matrix.parse("1 1 1;1 1 1;1 1 1;1 1 1;1 1 1"), Matrix.zero(5, 3).exp());
-    }
-
-    @Test
     public void testScalarAdd() {
         assertEquals(Matrix.parse("2 2 2;2 2 2;2 2 2;2 2 2;2 2 2"), Matrix.ones(5, 3).add(1));
     }
@@ -89,5 +84,15 @@ public class MatrixTest {
     public void testMatrixMultiplyElements() {
         assertEquals(Matrix.parse("7 8;10 63;3 20"),
                 Matrix.parse("1 2; 5 7; 3 5").multiplyElements(Matrix.parse("7 4; 2 9; 1 4")));
+    }
+
+    @Test
+    public void testInvertElements() {
+        assertEquals(Matrix.parse("0.5 0.5 0.5; 0.5 0.5 0.5"), Matrix.ones(2, 3).multiply(2).invertElements());
+    }
+
+    @Test
+    public void testExp() {
+        assertEquals(Matrix.parse("1 1 1;1 1 1;1 1 1;1 1 1;1 1 1"), Matrix.zero(5, 3).exp());
     }
 }

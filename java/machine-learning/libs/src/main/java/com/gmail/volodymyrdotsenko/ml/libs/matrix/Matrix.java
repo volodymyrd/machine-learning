@@ -110,6 +110,10 @@ public final class Matrix {
         return new Matrix(matrix.modify(PrimitiveFunction.EXP));
     }
 
+    public Matrix invertElements() {
+        return new Matrix(matrix.modify(PrimitiveFunction.INVERT));
+    }
+
     @Override
     public String toString() {
         return MatrixUtils.toString(matrix);
