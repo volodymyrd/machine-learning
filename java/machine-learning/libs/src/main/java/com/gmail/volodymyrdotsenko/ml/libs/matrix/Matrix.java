@@ -8,7 +8,7 @@ import org.ojalgo.matrix.MatrixUtils;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 /**
- * Created by Volodymyr Dotsenko on 2/15/17.
+ *
  */
 public final class Matrix {
 
@@ -68,6 +68,30 @@ public final class Matrix {
 
     public static Matrix eye(long rows, long columns, boolean big) {
         return new Matrix(getFactory(big).makeEye(rows, columns));
+    }
+
+    public Matrix add(double scalarAddend) {
+        return new Matrix(matrix.add(scalarAddend));
+    }
+
+    public Matrix add(Matrix addend) {
+        return new Matrix(matrix.add(addend.matrix));
+    }
+
+    public Matrix subtract(double scalarSubtrahend) {
+        return new Matrix(matrix.subtract(scalarSubtrahend));
+    }
+
+    public Matrix subtract(Matrix subtrahend) {
+        return new Matrix(matrix.subtract(subtrahend.matrix));
+    }
+
+    public Matrix divide(double scalarDivisor) {
+        return new Matrix(matrix.divide(scalarDivisor));
+    }
+
+    public Matrix divide(Matrix divisor) {
+        return new Matrix(matrix.divideElements(divisor.matrix));
     }
 
     public Matrix multiply(Matrix multiplicand) {
