@@ -1,9 +1,15 @@
 package com.gmail.volodymyrdotsenko.ml.nnw;
 
+import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * Created by Volodymyr Dotsenko on 2/13/17.
+ *
  */
 public final class FeedForwardNeuralNetwork extends NeuralNetwork {
+
+    private static Logger logger = LoggerFactory.getLogger(FeedForwardNeuralNetwork.class);
 
     public static class Builder extends NeuralNetwork.Builder<FeedForwardNeuralNetwork> {
 
@@ -35,6 +41,7 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
             }
 
             LayerBuilder neurons(int neurons) {
+                ((Layer) layer).neurons = neurons;
                 return this;
             }
         }
@@ -42,8 +49,32 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
 
     static class Layer extends NeuralNetwork.Layer {
         private int neurons;
+        private Matrix weight;
     }
 
     private FeedForwardNeuralNetwork() {
+    }
+
+    @Override
+    public void train(Matrix input, Matrix output) {
+        if (layersNumber() < 2) {
+            throw new IllegalStateException("Number layers must be at least two!");
+        }
+
+        init();
+    }
+
+    private void init() {
+        int ln = layersNumber();
+        for (int i = 1; i < ln; i++) {
+            Layer l = (Layer) layers.get(i - 1);
+            int in = l.neurons;
+            int on = ((Layer) layers.get(i)).neurons;
+            l.weight = Matrix.ones(in, on);
+        }
+    }
+
+    public void forwardPropagation() {
+
     }
 }
