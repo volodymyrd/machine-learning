@@ -36,6 +36,14 @@ public final class Matrix {
         return new Matrix(getFactory(false).rows(values));
     }
 
+    public long rows() {
+        return matrix.countRows();
+    }
+
+    public long columns() {
+        return matrix.countColumns();
+    }
+
     public static Matrix zero(long rows, long columns) {
         return zero(rows, columns, false);
     }
@@ -104,6 +112,10 @@ public final class Matrix {
 
     public Matrix multiplyElements(Matrix multiplicand) {
         return new Matrix(matrix.multiplyElements(multiplicand.matrix));
+    }
+
+    public Matrix transpose() {
+        return new Matrix(matrix.transpose());
     }
 
     public Matrix exp() {

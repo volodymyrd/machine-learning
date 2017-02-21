@@ -21,6 +21,16 @@ public class MatrixTest {
     }
 
     @Test
+    public void testRows() {
+        assertEquals(4, Matrix.parse("8 3 4; 2 6 1.5; 3 2 5; 1 5 7").rows());
+    }
+
+    @Test
+    public void testColumns() {
+        assertEquals(3, Matrix.parse("8 3 4; 2 6 1.5; 3 2 5; 1 5 7").columns());
+    }
+
+    @Test
     public void testBigOnes() {
         assertEquals(Matrix.parse("1 1 1;1 1 1;1 1 1;1 1 1;1 1 1"), Matrix.ones(5, 3, true));
     }
@@ -84,6 +94,12 @@ public class MatrixTest {
     public void testMatrixMultiplyElements() {
         assertEquals(Matrix.parse("7 8;10 63;3 20"),
                 Matrix.parse("1 2; 5 7; 3 5").multiplyElements(Matrix.parse("7 4; 2 9; 1 4")));
+    }
+
+    @Test
+    public void testTranspose() {
+        assertEquals(Matrix.parse("8 2 3 1; 3 6 2 5; 4 1.5 5 7"),
+                Matrix.parse("8 3 4; 2 6 1.5; 3 2 5; 1 5 7").transpose());
     }
 
     @Test

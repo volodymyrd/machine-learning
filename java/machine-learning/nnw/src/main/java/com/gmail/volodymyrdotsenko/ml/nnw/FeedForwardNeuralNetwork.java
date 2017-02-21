@@ -44,12 +44,18 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
                 ((Layer) layer).neurons = neurons;
                 return this;
             }
+
+            LayerBuilder weights(Matrix weights) {
+                ((Layer) layer).weights = weights;
+                return this;
+            }
         }
     }
 
     static class Layer extends NeuralNetwork.Layer {
         private int neurons;
-        private Matrix weight;
+        private Matrix weights;
+        private Matrix tWeights;
     }
 
     private FeedForwardNeuralNetwork() {
@@ -70,7 +76,16 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
             Layer l = (Layer) layers.get(i - 1);
             int in = l.neurons;
             int on = ((Layer) layers.get(i)).neurons;
-            l.weight = Matrix.ones(in, on);
+            if (l.weights == null) {
+                l.weights = Matrix.ones(on, in + 1);
+            } else {
+                if (l.weights.rows() != on || l.weights.columns() != (in + 1))
+                    throw new IllegalStateException("The weights matrix in the layer "
+                            + l.name + " has a wrong size, must be "
+                            + on + "x" + (in + 1));
+            }
+
+            l.tWeights = l.weights.transpose();
         }
     }
 
