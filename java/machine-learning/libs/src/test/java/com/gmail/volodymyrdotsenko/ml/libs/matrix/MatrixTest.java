@@ -103,6 +103,12 @@ public class MatrixTest {
     }
 
     @Test
+    public void mergeRows() {
+        assertEquals(Matrix.parse("1 8 3 4;1 2 6 1.5;1 3 2 5;1 1 5 7"),
+                Matrix.ones(4, 1).mergeRows(Matrix.parse("8 3 4; 2 6 1.5; 3 2 5; 1 5 7")));
+    }
+
+    @Test
     public void testInvertElements() {
         assertEquals(Matrix.parse("0.5 0.5 0.5; 0.5 0.5 0.5"), Matrix.ones(2, 3).multiply(2).invertElements());
     }
@@ -110,5 +116,11 @@ public class MatrixTest {
     @Test
     public void testExp() {
         assertEquals(Matrix.parse("1 1 1;1 1 1;1 1 1;1 1 1;1 1 1"), Matrix.zero(5, 3).exp());
+    }
+
+    @Test
+    public void testGetRowsRange() {
+        assertEquals(Matrix.parse("1 2 6 1.5;1 3 2 5;1 1 5 7"),
+                Matrix.parse("1 8 3 4;1 2 6 1.5;1 3 2 5;1 1 5 7").getRowsRange(1, 4));
     }
 }

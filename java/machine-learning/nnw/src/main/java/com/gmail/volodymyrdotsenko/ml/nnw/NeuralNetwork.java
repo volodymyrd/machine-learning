@@ -1,5 +1,6 @@
 package com.gmail.volodymyrdotsenko.ml.nnw;
 
+import com.gmail.volodymyrdotsenko.ml.libs.activation.Activation;
 import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,18 +51,43 @@ public abstract class NeuralNetwork {
                 return this;
             }
 
+            LayerBuilder<? extends Layer> activation(Activation activation) {
+                layer.activation = activation;
+
+                return this;
+            }
+
             L build() {
                 return layer;
             }
         }
     }
 
-    protected NeuralNetwork() {
+    NeuralNetwork() {
     }
 
     protected static class Layer {
         protected String name;
+        protected Activation activation;
     }
 
-    public abstract void train(Matrix input, Matrix output);
+    /**
+     * Start training neural network
+     *
+     * @param input  the MxNI matrix of the input features, where M - the number of training examples,
+     *               NI - the number of features or the number of neurons in the input layer
+     * @param output the MxNO matrix of the output, where M - the number of training examples,
+     *               NO - the number of neurons in the output layer
+     */
+    public void train(Matrix input, Matrix output) {
+        logger.info("Start training the neural network...");
+
+        if (input == null)
+            throw new IllegalArgumentException("The parameter 'input' must be set");
+        if (output == null)
+            throw new IllegalArgumentException("The parameter 'output' must be set");
+        if (input.rows() != output.rows())
+            throw new IllegalArgumentException("The number of rows in the input matrix must be the same " +
+                    " as the number rows in output matrix");
+    }
 }

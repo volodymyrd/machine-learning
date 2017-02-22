@@ -78,6 +78,14 @@ public final class Matrix {
         return new Matrix(getFactory(big).makeEye(rows, columns));
     }
 
+    public double get(long row, long col) {
+        return matrix.get(row, col).doubleValue();
+    }
+
+    public Matrix getRowsRange(int first, int limit) {
+        return new Matrix(matrix.getRowsRange(first, limit));
+    }
+
     public Matrix add(double scalarAddend) {
         return new Matrix(matrix.add(scalarAddend));
     }
@@ -116,6 +124,10 @@ public final class Matrix {
 
     public Matrix transpose() {
         return new Matrix(matrix.transpose());
+    }
+
+    public Matrix mergeRows(Matrix rightColumns) {
+        return new Matrix(matrix.mergeRows(rightColumns.matrix));
     }
 
     public Matrix exp() {

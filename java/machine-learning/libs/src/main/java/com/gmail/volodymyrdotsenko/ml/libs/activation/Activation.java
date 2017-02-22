@@ -1,5 +1,7 @@
 package com.gmail.volodymyrdotsenko.ml.libs.activation;
 
+import com.gmail.volodymyrdotsenko.ml.libs.activation.functions.ActivationSigmoid;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +52,7 @@ public enum Activation {
             case RRELU:
                 //return new ActivationRReLU();
             case SIGMOID:
-                //return new ActivationSigmoid();
+                return new ActivationSigmoid();
             case SOFTMAX:
                 //return new ActivationSoftmax();
             case SOFTPLUS:
