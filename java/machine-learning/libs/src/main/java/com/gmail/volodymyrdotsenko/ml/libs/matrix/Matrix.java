@@ -7,6 +7,8 @@ import org.ojalgo.matrix.BigMatrix;
 import org.ojalgo.matrix.MatrixUtils;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
+import java.util.Random;
+
 /**
  *
  */
@@ -76,6 +78,33 @@ public final class Matrix {
 
     public static Matrix eye(long rows, long columns, boolean big) {
         return new Matrix(getFactory(big).makeEye(rows, columns));
+    }
+
+    public static Matrix randomInt(long rows, long columns, int min, int max) {
+        Random random = new Random();
+
+        double[][] values = new double[(int) rows][(int) columns];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++) {
+                values[i][j] = random.nextInt((max - min) + 1) + min;
+            }
+
+        return new Matrix(getFactory(false).rows(values));
+    }
+
+    public static Matrix randomDouble(long rows, long columns) {
+        Random random = new Random();
+
+        double[][] values = new double[(int) rows][(int) columns];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++) {
+                double v = 0;
+                while ((v = random.nextDouble()) <= 0);
+                values[i][j] = v;
+            }
+
+
+        return new Matrix(getFactory(false).rows(values));
     }
 
     public double get(long row, long col) {

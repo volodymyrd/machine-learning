@@ -16,6 +16,7 @@ public abstract class NeuralNetwork {
     private static Logger logger = LoggerFactory.getLogger(NeuralNetwork.class);
 
     protected List<Layer> layers = new ArrayList<>();
+    protected Activation activation;
 
     public int layersNumber() {
         return layers.size();
@@ -30,6 +31,12 @@ public abstract class NeuralNetwork {
 
         public N build() {
             return nnw;
+        }
+
+        public Builder<? extends NeuralNetwork> activation(Activation activation) {
+            nnw.activation = activation;
+
+            return this;
         }
 
         public <L extends Layer> Builder<? extends NeuralNetwork> layer(L layer) {

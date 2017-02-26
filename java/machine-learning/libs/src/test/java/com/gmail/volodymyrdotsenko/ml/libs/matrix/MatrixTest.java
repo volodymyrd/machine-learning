@@ -3,6 +3,7 @@ package com.gmail.volodymyrdotsenko.ml.libs.matrix;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -122,5 +123,30 @@ public class MatrixTest {
     public void testGetRowsRange() {
         assertEquals(Matrix.parse("1 2 6 1.5;1 3 2 5;1 1 5 7"),
                 Matrix.parse("1 8 3 4;1 2 6 1.5;1 3 2 5;1 1 5 7").getRowsRange(1, 4));
+    }
+
+    @Test
+    public void testRandomDouble() {
+        int rows = 200;
+        int columns = 500;
+        Matrix m = Matrix.randomDouble(rows, columns);
+
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < columns; c++)
+                assertTrue(m.get(r, c) > 0 && m.get(r, c) < 1);
+    }
+
+    @Test
+    public void testRandomInt() {
+        int rows = 200;
+        int columns = 500;
+        int min = -50;
+        int max = 50;
+        Matrix m = Matrix.randomInt(rows, columns, min, max);
+
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < columns; c++) {
+                assertTrue(m.get(r, c) >= min && m.get(r, c) <= max);
+            }
     }
 }

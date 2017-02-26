@@ -19,6 +19,11 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
         }
 
         @Override
+        public Builder activation(Activation activation) {
+            return (Builder) super.activation(activation);
+        }
+
+        @Override
         public FeedForwardNeuralNetwork build() {
             return super.build();
         }
@@ -69,12 +74,40 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
                 ((Layer) layer).weights = weights;
                 return this;
             }
+
+            LayerBuilder randomInitWeights(RandomInit randomInit) {
+                ((Layer) layer).randomInit = randomInit;
+                return this;
+            }
+        }
+    }
+
+    public final static class RandomInit {
+        private final int min;
+        private final int max;
+        private final boolean isDouble;
+
+        public RandomInit() {
+            this.min = 0;
+            this.max = 0;
+            this.isDouble = true;
+        }
+
+        public RandomInit(int min, int max) {
+            this.min = min;
+            this.max = max;
+            this.isDouble = false;
         }
     }
 
     static class Layer extends NeuralNetwork.Layer {
         private int neurons;
         private Matrix weights;
+        private RandomInit randomInit;
+
+        Matrix getWeights() {
+            return weights;
+        }
     }
 
     FeedForwardNeuralNetwork() {
@@ -95,14 +128,34 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
         Matrix calculatedOutput = forwardPropagation(inputWithBias);
     }
 
-    private void init() {
+    void init() {
         int ln = layersNumber();
+        boolean isGlobalActivation = false;
+        if (activation != null)
+            isGlobalActivation = true;
+
         for (int i = 1; i < ln; i++) {
             Layer previousLayer = (Layer) layers.get(i - 1);
+            Layer currentLayer = (Layer) layers.get(i);
+
+            if (!isGlobalActivation && currentLayer.activation == null)
+                throw new IllegalStateException("The network layer" + currentLayer.name
+                        + " does not have an activation function. " +
+                        "You must set the activation function either for the whole network or " +
+                        "for every layer, except the first layer");
+
             int numberNeuronsInPreviousLayer = previousLayer.neurons;
-            int numberNeuronsInCurrentLayer = ((Layer) layers.get(i)).neurons;
+            int numberNeuronsInCurrentLayer = currentLayer.neurons;
             if (previousLayer.weights == null) {
-                previousLayer.weights = Matrix.ones(numberNeuronsInPreviousLayer + 1, numberNeuronsInCurrentLayer);
+                if (previousLayer.randomInit == null)
+                    throw new IllegalStateException("You must set the initialization way for the weights");
+                if (previousLayer.randomInit.isDouble)
+                    previousLayer.weights = Matrix.randomDouble(numberNeuronsInPreviousLayer + 1, numberNeuronsInCurrentLayer);
+                else {
+                    previousLayer.weights = Matrix.randomInt(numberNeuronsInPreviousLayer + 1,
+                            numberNeuronsInCurrentLayer, previousLayer.randomInit.min,
+                            previousLayer.randomInit.max);
+                }
             } else {
                 if (previousLayer.weights.rows() != (numberNeuronsInPreviousLayer + 1) ||
                         previousLayer.weights.columns() != numberNeuronsInCurrentLayer)
@@ -119,10 +172,14 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
 
     Matrix forwardPropagation(Matrix input) {
         int ln = layersNumber();
-        for (int i = 0; i < ln; i++) {
+        for (int i = 0; i < ln - 1; i++) {
+            input = Matrix.ones(input.rows(), 1).mergeRows(input);
             Layer layer = (Layer) layers.get(i);
             Matrix output = activationInput(layer.weights, input);
-            output = layer.activation.getActivationFunction().execute(output);
+            if (layer.activation != null)
+                output = layer.activation.getActivationFunction().execute(output);
+            else
+                output = activation.getActivationFunction().execute(output);
             input = output;
         }
 
