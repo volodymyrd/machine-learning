@@ -99,7 +99,22 @@ public final class Matrix {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++) {
                 double v = 0;
-                while ((v = random.nextDouble()) <= 0);
+                while ((v = random.nextDouble()) <= 0) ;
+                values[i][j] = v;
+            }
+
+
+        return new Matrix(getFactory(false).rows(values));
+    }
+
+    public static Matrix randomDoubleInRange(long rows, long columns, int min, int max) {
+        Random random = new Random();
+
+        double[][] values = new double[(int) rows][(int) columns];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++) {
+                double v = 0;
+                while ((v = min + (max - min) * random.nextDouble()) == 0) ;
                 values[i][j] = v;
             }
 

@@ -3,6 +3,7 @@ package com.gmail.volodymyrdotsenko.ml.libs.matrix;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -147,6 +148,20 @@ public class MatrixTest {
         for (int r = 0; r < rows; r++)
             for (int c = 0; c < columns; c++) {
                 assertTrue(m.get(r, c) >= min && m.get(r, c) <= max);
+            }
+    }
+
+    @Test
+    public void testRandomDoubleInRange() {
+        int rows = 200;
+        int columns = 500;
+        int min = -1;
+        int max = 1;
+        Matrix m = Matrix.randomDoubleInRange(rows, columns, min, max);
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < columns; c++) {
+                assertTrue(m.get(r, c) >= min && m.get(r, c) <= max);
+                assertNotEquals(0, m.get(r, c));
             }
     }
 }

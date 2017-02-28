@@ -88,8 +88,8 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
         private final boolean isDouble;
 
         public RandomInit() {
-            this.min = 0;
-            this.max = 0;
+            this.min = -1;
+            this.max = 1;
             this.isDouble = true;
         }
 
@@ -149,9 +149,12 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
             if (previousLayer.weights == null) {
                 if (previousLayer.randomInit == null)
                     throw new IllegalStateException("You must set the initialization way for the weights");
-                if (previousLayer.randomInit.isDouble)
-                    previousLayer.weights = Matrix.randomDouble(numberNeuronsInPreviousLayer + 1, numberNeuronsInCurrentLayer);
-                else {
+                if (previousLayer.randomInit.isDouble) {
+                    previousLayer.weights =
+                            Matrix.randomDoubleInRange(numberNeuronsInPreviousLayer + 1,
+                                    numberNeuronsInCurrentLayer, previousLayer.randomInit.min,
+                                    previousLayer.randomInit.max);
+                } else {
                     previousLayer.weights = Matrix.randomInt(numberNeuronsInPreviousLayer + 1,
                             numberNeuronsInCurrentLayer, previousLayer.randomInit.min,
                             previousLayer.randomInit.max);
