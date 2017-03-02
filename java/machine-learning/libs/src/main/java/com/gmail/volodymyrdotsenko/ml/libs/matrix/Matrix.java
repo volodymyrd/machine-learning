@@ -182,6 +182,14 @@ public final class Matrix {
         return new Matrix(matrix.modify(PrimitiveFunction.INVERT));
     }
 
+    public Matrix pow(double p) {
+        return new Matrix(matrix.modify(new PrimitiveFunction.Unary() {
+            public final double invoke(final double arg) {
+                return Math.pow(arg, p);
+            }
+        }));
+    }
+
     @Override
     public String toString() {
         return MatrixUtils.toString(matrix);

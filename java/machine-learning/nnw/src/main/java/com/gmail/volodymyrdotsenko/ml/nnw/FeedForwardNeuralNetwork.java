@@ -30,8 +30,6 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
 
         @Override
         public <L extends NeuralNetwork.Layer> Builder layer(L layer) {
-            Layer l = (Layer) layer;
-
             return (Builder) super.layer(layer);
         }
 
