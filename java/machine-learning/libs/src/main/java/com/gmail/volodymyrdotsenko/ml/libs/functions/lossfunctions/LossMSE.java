@@ -9,7 +9,7 @@ import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
  */
 public class LossMSE implements ILossFunction {
     @Override
-    public double execute(Matrix predictedOutput, Matrix output) {
+    public double getValue(Matrix predictedOutput, Matrix output) {
         long nOutPutRows = output.rows();
         long nPredictedRows = predictedOutput.rows();
 

@@ -38,58 +38,5 @@ public final class MinCjg implements IOptimizationAlgorithm {
     }
 
     private void compute() {
-        fmin = function.execute(x0);
-        // Initially directions g and h are identical to gradient at x0
-        grad = new AuxGrad(muf, list);
-        g = grad.getGradient(x0);
-        g = g.multiply(-1.);
-        h = new DatanVector(g);
-        // iteration
-        loop:
-        for (istep = 1; istep <= nst; istep++) {
-            lstep = istep;
-            if (istep > 1) {
-                if (Math.abs(fminl - fmin) < eps * Math.abs(fmin) + T) {
-                    nstep = istep;
-                    converged = true;
-                    break loop;
-                }
-                fminl = fmin;
-            }
-            hfull = new DatanVector(n);
-            hfull.putSubvector(h, list);
-            if (hfull.dot(hfull) < eps) {
-                converged = true;
-                break loop;
-            }
-            md = new MinDir(x0, hfull, nst, eps, muf);
-            if (!md.hasConverged()) {
-                converged = false;
-                break loop;
-            }
-// x0 is position of minimum along direction h
-            x0 = md.getMinPosition();
-            fmin = md.getMinimum();
-// gr is gradient at x0
-            gr = grad.getGradient(x0);
-// compute next set of directions g and h
-            gr = gr.multiply(-1.);
-            d = gr.sub(g);
-            s = d.dot(gr);
-            a = g.dot(g);
-            if (a < eps) {
-                converged = true;
-                break loop;
-            }
-            gamma = s / a;
-            h = h.multiply(gamma);
-            h = h.add(gr);
-            g = new DatanVector(gr);
-        }
-        if (istep == nst + 1 || !converged) {
-            nst = -1;
-        } else {
-            nst = istep;
-        }
     }
 }

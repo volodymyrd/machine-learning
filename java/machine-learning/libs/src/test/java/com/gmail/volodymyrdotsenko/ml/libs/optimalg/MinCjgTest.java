@@ -35,7 +35,7 @@ public class MinCjgTest {
 
     @Test
     public void testFunction() {
-        Assert.assertEquals(28, function.execute(Matrix.parse("2")), 0);
+        Assert.assertEquals(28, function.getValue(Matrix.parse("2")), 0);
     }
 
     @Test

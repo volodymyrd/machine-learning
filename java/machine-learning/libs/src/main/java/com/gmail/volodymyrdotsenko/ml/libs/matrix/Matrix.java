@@ -126,8 +126,25 @@ public final class Matrix {
         return matrix.get(row, col).doubleValue();
     }
 
+    public static Matrix vector(double[] values) {
+        return new Matrix(getFactory(false).columns(values));
+    }
+
     public Matrix getRowsRange(int first, int limit) {
         return new Matrix(matrix.getRowsRange(first, limit));
+    }
+
+    public Matrix getColumnsRange(int first, int limit) {
+        return new Matrix(matrix.getColumnsRange(first, limit));
+    }
+
+    public double[] extractColumn(long columnNumber) {
+        double[] column = new double[(int) rows()];
+        for (int i = 0; i < column.length; i++) {
+            column[i] = get(i, columnNumber);
+        }
+
+        return column;
     }
 
     public Matrix add(double scalarAddend) {

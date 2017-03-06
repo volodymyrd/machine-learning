@@ -2,9 +2,7 @@ package com.gmail.volodymyrdotsenko.ml.libs.matrix;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -168,5 +166,17 @@ public class MatrixTest {
                 assertTrue(m.get(r, c) >= min && m.get(r, c) <= max);
                 assertNotEquals(0, m.get(r, c));
             }
+    }
+
+    @Test
+    public void testVector() {
+        assertEquals(Matrix.parse("1;2;3;4;5"), Matrix.vector(new double[]{1, 2, 3, 4, 5}));
+    }
+
+    @Test
+    public void testExtractColumn() {
+        assertArrayEquals(new double[]{1, 2, 3, 4, 5},
+                Matrix.parse("1 2 1 1.5 4;1 3 2 5 7;1 2 3 4 5;2 1 4 5 7;6 8 5 2 9")
+                        .extractColumn(2), 0);
     }
 }
