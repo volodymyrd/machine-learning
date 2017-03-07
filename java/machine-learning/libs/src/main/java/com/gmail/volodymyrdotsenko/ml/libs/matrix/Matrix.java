@@ -122,6 +122,10 @@ public final class Matrix {
         return new Matrix(getFactory(false).rows(values));
     }
 
+    public Matrix copy() {
+        return new Matrix(matrix.copy().build());
+    }
+
     public double get(long row, long col) {
         return matrix.get(row, col).doubleValue();
     }
@@ -193,6 +197,10 @@ public final class Matrix {
 
     public Matrix exp() {
         return new Matrix(matrix.modify(PrimitiveFunction.EXP));
+    }
+
+    public Matrix ln() {
+        return new Matrix(matrix.modify(PrimitiveFunction.LOG));
     }
 
     public Matrix invertElements() {

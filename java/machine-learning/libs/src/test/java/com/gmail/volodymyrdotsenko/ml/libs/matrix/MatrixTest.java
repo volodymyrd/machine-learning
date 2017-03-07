@@ -21,6 +21,13 @@ public class MatrixTest {
     }
 
     @Test
+    public void testCopy() {
+        Matrix m = Matrix.parse("1 2 3;4 5 6;7 8 9");
+        Matrix copy = m.copy();
+        assertEquals(m, copy);
+    }
+
+    @Test
     public void testRows() {
         assertEquals(4, Matrix.parse("8 3 4; 2 6 1.5; 3 2 5; 1 5 7").rows());
     }
