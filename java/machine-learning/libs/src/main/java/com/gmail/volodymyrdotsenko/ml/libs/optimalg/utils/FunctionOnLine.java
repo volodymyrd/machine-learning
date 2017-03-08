@@ -1,4 +1,4 @@
-package com.gmail.volodymyrdotsenko.ml.libs.optimalg;
+package com.gmail.volodymyrdotsenko.ml.libs.optimalg.utils;
 
 import com.gmail.volodymyrdotsenko.ml.libs.functions.IFunction;
 import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
@@ -6,7 +6,7 @@ import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
 /**
  * A class computing the value of a function at a given point on straight line in n-dimensional space.
  */
-public class FunctionOnLine {
+public final class FunctionOnLine {
     private final IFunction function;
     private final Matrix x0, xdir;
 

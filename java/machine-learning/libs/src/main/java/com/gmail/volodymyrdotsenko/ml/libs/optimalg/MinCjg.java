@@ -19,7 +19,6 @@ public final class MinCjg implements IOptimizationAlgorithm {
     private boolean converged;
     private Matrix x0, d, g, gr, h, hfull;
     private IFunction function;
-    //private MinDir md;
     private IGradient gradient;
 
     public MinCjg() {
@@ -39,6 +38,16 @@ public final class MinCjg implements IOptimizationAlgorithm {
         n = (int) this.x0.rows();
 
         compute();
+    }
+
+    @Override
+    public boolean hasConverged() {
+        return converged;
+    }
+
+    @Override
+    public int getSteps() {
+        return nstep;
     }
 
     private void compute() {
@@ -62,7 +71,7 @@ public final class MinCjg implements IOptimizationAlgorithm {
                 converged = true;
                 break;
             }
-            md = new MinDir(x0, hfull, nst, eps, muf);
+            MinDir md = new MinDir(x0, hfull, nst, eps, muf);
             if (!md.hasConverged()) {
                 converged = false;
                 break;
