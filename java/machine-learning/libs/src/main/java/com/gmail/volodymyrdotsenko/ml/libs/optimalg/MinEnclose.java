@@ -26,6 +26,10 @@ public final class MinEnclose implements IOptimizationAlgorithm {
 
     /**
      * @param parameters {@link Map} of parameters:
+     *                   <p>{@link ParameterType#LEFT_INTERVAL_BOUNDARY} {@link Double} value corresponding
+     *                   to a point defining one end the interval comprising the minimum.
+     *                   <p>{@link ParameterType#RIGHT_INTERVAL_BOUNDARY} {@link Double} value corresponding
+     *                   to a point defining the other end the interval comprising the minimum.
      *                   <p> {@link ParameterType#INITIAL_POINT} {@link Matrix} point in n-space
      *                   <p> {@link ParameterType#DIRECTION} {@link Matrix} direction in n-space.
      *                   Straight line is given by x = x0 + a * xdir, where a is a running scalar variable.

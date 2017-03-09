@@ -20,6 +20,8 @@ public final class MinDir implements IOptimizationAlgorithm {
 
     private boolean converged;
     private int nstep;
+    private Matrix xmin;
+    private double fc;
 
     /**
      * @param parameters {@link Map} of parameters:
@@ -56,7 +58,6 @@ public final class MinDir implements IOptimizationAlgorithm {
         me.compute(params);
         params = null;
 
-        Matrix xmin = null;
         if (me.hasConverged()) {
             double[] xValues = me.getXValues();
             if (xValues[2] < xValues[0]) {
@@ -77,7 +78,6 @@ public final class MinDir implements IOptimizationAlgorithm {
             mc.compute(params);
             params = null;
 
-            double fc = 0.;
             if (mc.hasConverged()) {
                 double c = mc.getX();
                 fc = mc.getY();
@@ -104,5 +104,19 @@ public final class MinDir implements IOptimizationAlgorithm {
     @Override
     public int getSteps() {
         return nstep;
+    }
+
+    /**
+     * @return the postion of the minimum.
+     */
+    public Matrix getMinPosition() {
+        return xmin;
+    }
+
+    /**
+     * @return the function value at the minimum.
+     */
+    public double getMinimum() {
+        return fc;
     }
 }
