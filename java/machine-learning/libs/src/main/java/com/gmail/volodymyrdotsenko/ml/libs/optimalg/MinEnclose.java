@@ -21,9 +21,6 @@ public final class MinEnclose implements IOptimizationAlgorithm {
     private double xa, xb, xc, ya, yb, yc;
     private FunctionOnLine fol;
 
-    private final double[] XValues = new double[3];
-    private final double[] YValues = new double[3];
-
     /**
      * @param parameters {@link Map} of parameters:
      *                   <p>{@link ParameterType#LEFT_INTERVAL_BOUNDARY} {@link Double} value corresponding
@@ -133,20 +130,14 @@ public final class MinEnclose implements IOptimizationAlgorithm {
      * @return 3 values (xa, xb, xc) of the variable a determining the interval containing the minimum.
      */
     public double[] getXValues() {
-        XValues[0] = xa;
-        XValues[1] = xb;
-        XValues[2] = xc;
-        return XValues;
+        return new double[]{xa, xb, xc};
     }
 
     /**
      * @return the  function values (ya, yb, yc) of at the points given by (xa, xb, xc).
      */
     public double[] getYValues() {
-        YValues[0] = ya;
-        YValues[1] = yb;
-        YValues[2] = yc;
-        return YValues;
+        return new double[]{ya, yb, yc};
     }
 
     private void extend(double xt) {

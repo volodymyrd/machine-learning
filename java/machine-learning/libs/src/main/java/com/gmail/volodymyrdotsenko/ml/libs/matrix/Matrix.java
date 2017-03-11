@@ -1,5 +1,6 @@
 package com.gmail.volodymyrdotsenko.ml.libs.matrix;
 
+import org.ojalgo.access.ElementView2D;
 import org.ojalgo.function.NullaryFunction;
 import org.ojalgo.function.PrimitiveFunction;
 import org.ojalgo.matrix.BasicMatrix;
@@ -208,11 +209,16 @@ public final class Matrix {
     }
 
     public Matrix pow(double p) {
-        return new Matrix(matrix.modify(new PrimitiveFunction.Unary() {
-            public final double invoke(final double arg) {
-                return Math.pow(arg, p);
-            }
-        }));
+        return new Matrix(matrix.modify(PrimitiveFunction.POW.second(p)));
+    }
+
+    public double sumAllElements() {
+        double sum = 0;
+        ElementView2D<Number, ?> elements = matrix.elements();
+        while (elements.hasNext()) {
+            sum += elements.next().doubleValue();
+        }
+        return sum;
     }
 
     @Override

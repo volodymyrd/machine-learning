@@ -7,8 +7,6 @@ import com.gmail.volodymyrdotsenko.ml.libs.optimalg.utils.FunctionOnLine;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.sun.tools.doclint.Entity.epsilon;
-
 /**
  * A class determining the minimum of a function along a straight line in n-dimensional space.
  * The minimum is first enclosed and then found according to combination the method of the golden
@@ -30,7 +28,7 @@ public final class MinDir implements IOptimizationAlgorithm {
      *                   Straight line is given by x = x0 + a * xdir, where a is a running scalar variable.
      *                   <p> {@link ParameterType#MAXIMAL_STEP_NUMBER} {@link Integer} maximal step number;
      *                   if a value <= 0 is used, then 1000 is taken instead.
-     *                   <p> {@link ParameterType#INITIAL_POINT} {@link Double} epsilon accuracy; if a value <= 0.
+     *                   <p> {@link ParameterType#EPSILON_ACCURACY} {@link Double} epsilon accuracy; if a value <= 0.
      *                   is used, then 1,E-8 is taken instead.
      *                   <p> {@link ParameterType#FUNCTION} user function which must implement {@link IFunction}.
      */
@@ -72,7 +70,7 @@ public final class MinDir implements IOptimizationAlgorithm {
             params.put(ParameterType.INITIAL_POINT, x0);
             params.put(ParameterType.DIRECTION, xdir);
             params.put(ParameterType.FUNCTION, function);
-            params.put(ParameterType.EPSILON_ACCURACY, epsilon);
+            params.put(ParameterType.EPSILON_ACCURACY, eps);
             params.put(ParameterType.MAXIMAL_STEP_NUMBER, nst);
             MinCombined mc = new MinCombined();
             mc.compute(params);

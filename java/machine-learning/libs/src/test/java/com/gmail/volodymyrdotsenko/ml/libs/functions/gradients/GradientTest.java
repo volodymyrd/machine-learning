@@ -24,6 +24,18 @@ public class GradientTest {
         }
     };
 
+    //z=x^3+8*y^3-6*x*y+5
+    //z'x=3*x^2-6*y
+    //z'y=24*y^2-6*x
+    private IFunction function2 = new IFunction() {
+        @Override
+        public double getValue(Matrix input) {
+            Matrix input3 = input.pow(3);
+            return input3.get(0, 0) + 8 * input3.get(1, 0)
+                    - 6 * input.get(0, 0) * input.get(1, 0) + 5;
+        }
+    };
+
     @Test
     public void testFunction() throws Exception {
         assertEquals(45.517,
@@ -31,8 +43,14 @@ public class GradientTest {
     }
 
     @Test
-    public void testGetValue() throws Exception {
+    public void testGradient() throws Exception {
         assertEquals(31.308,
                 new Gradient().getValue(function, Matrix.parse("3")).get(0, 0), 0.001);
+    }
+
+    @Test
+    public void testGradient2() throws Exception {
+        assertEquals(Matrix.parse("-15.006662579253316; 1158.0011362509272"),
+                new Gradient().getValue(function2, Matrix.parse("3;7")));
     }
 }

@@ -12,19 +12,18 @@ public class Gradient implements IGradient {
 
     @Override
     public Matrix getValue(IFunction function, Matrix input) {
-        double arg, del, fm, fp, sav;
         int vectorLength = (int) input.rows();
         double[] gradient = new double[vectorLength];
-        double[] x = input.extractColumn(0);
         for (int i = 0; i < vectorLength; i++) {
-            arg = Math.abs(x[i]);
+            double[] x = input.extractColumn(0);
+            double arg = Math.abs(x[i]);
             if (arg < CUT) arg = CUT;
-            del = DELTA * arg;
-            sav = x[i];
+            double del = DELTA * arg;
+            double sav = x[i];
             x[i] = sav + del;
-            fp = function.getValue(Matrix.vector(x));
+            double fp = function.getValue(Matrix.vector(x));
             x[i] = sav - del;
-            fm = function.getValue(Matrix.vector(x));
+            double fm = function.getValue(Matrix.vector(x));
             gradient[i] = (fp - fm) / (del + del);
         }
 

@@ -176,6 +176,11 @@ public class MatrixTest {
     }
 
     @Test
+    public void testSumAllElements() {
+        assertEquals(45, Matrix.parse("1 2 3; 4 5 6; 7 8 9").sumAllElements(), 0.0);
+    }
+
+    @Test
     public void testVector() {
         assertEquals(Matrix.parse("1;2;3;4;5"), Matrix.vector(new double[]{1, 2, 3, 4, 5}));
     }
