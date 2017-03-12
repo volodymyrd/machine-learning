@@ -1,5 +1,7 @@
 package com.gmail.volodymyrdotsenko.ml.libs.optimalg;
 
+import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
+
 import java.util.Map;
 
 /**
@@ -14,6 +16,7 @@ public interface IOptimizationAlgorithm {
         EPSILON_ACCURACY,
         FUNCTION,
         GRADIENT,
+        HESSIAN,
         DIRECTION
     }
 
@@ -33,4 +36,14 @@ public interface IOptimizationAlgorithm {
      * @return the number of iteration steps needed, -1 if iteration failed.
      */
     int getSteps();
+
+    /**
+     * @return the position of the minimum.
+     */
+    Matrix getMinPosition();
+
+    /**
+     * @return the function value at the minimum.
+     */
+    double getMinimum();
 }

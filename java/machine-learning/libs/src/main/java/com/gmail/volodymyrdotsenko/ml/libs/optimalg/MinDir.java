@@ -28,7 +28,7 @@ public final class MinDir implements IOptimizationAlgorithm {
      *                   Straight line is given by x = x0 + a * xdir, where a is a running scalar variable.
      *                   <p> {@link ParameterType#MAXIMAL_STEP_NUMBER} {@link Integer} maximal step number;
      *                   if a value <= 0 is used, then 1000 is taken instead.
-     *                   <p> {@link ParameterType#EPSILON_ACCURACY} {@link Double} epsilon accuracy; if a value <= 0.
+     *                   <p> {@link ParameterType#EPSILON_ACCURACY} {@link Double} accuracy; if a value <= 0.
      *                   is used, then 1,E-8 is taken instead.
      *                   <p> {@link ParameterType#FUNCTION} user function which must implement {@link IFunction}.
      */
@@ -78,7 +78,7 @@ public final class MinDir implements IOptimizationAlgorithm {
 
             if (mc.hasConverged()) {
                 double c = mc.getX();
-                fc = mc.getY();
+                fc = mc.getMinimum();
                 xmin = x0.add(xdir.multiply(c));
                 converged = true;
             } else {

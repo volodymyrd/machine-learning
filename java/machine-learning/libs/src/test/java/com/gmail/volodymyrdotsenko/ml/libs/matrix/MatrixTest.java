@@ -186,6 +186,28 @@ public class MatrixTest {
     }
 
     @Test
+    public void testFrom2Array() {
+        assertEquals(Matrix.parse("1 2 3 4;5 6 7 8"), Matrix.from2Array(new double[][]{{1, 2, 3, 4}, {5, 6, 7, 8}}));
+    }
+
+    @Test
+    public void testTo2Array() {
+        assertArrayEquals(new double[][]{{1, 2, 3, 4}, {5, 6, 7, 8}}, Matrix.parse("1 2 3 4;5 6 7 8").to2Array());
+    }
+
+    @Test
+    public void testToArrayByRow() {
+        assertArrayEquals(new double[]{1, 2, 3, 4, 5, 6, 7, 8},
+                Matrix.parse("1 2 3 4;5 6 7 8").toArrayByRow(), 0);
+    }
+
+    @Test
+    public void testToArrayByColumn() {
+        assertArrayEquals(new double[]{1, 5, 2, 6, 3, 7, 4, 8},
+                Matrix.parse("1 2 3 4;5 6 7 8").toArrayByColumn(), 0);
+    }
+
+    @Test
     public void testExtractColumn() {
         assertArrayEquals(new double[]{1, 2, 3, 4, 5},
                 Matrix.parse("1 2 1 1.5 4;1 3 2 5 7;1 2 3 4 5;2 1 4 5 7;6 8 5 2 9")

@@ -153,17 +153,10 @@ public final class MinCombined implements IOptimizationAlgorithm {
     }
 
     /**
-     * @return the postion of the minimum.
+     * @return the position of the minimum.
      */
     public double getX() {
         return x;
-    }
-
-    /**
-     * @return the function value at the minimum.
-     */
-    public double getY() {
-        return fx;
     }
 
     @Override
@@ -174,5 +167,15 @@ public final class MinCombined implements IOptimizationAlgorithm {
     @Override
     public int getSteps() {
         return nst;
+    }
+
+    @Override
+    public Matrix getMinPosition() {
+        return Matrix.vector(new double[]{x});
+    }
+
+    @Override
+    public double getMinimum() {
+        return fx;
     }
 }

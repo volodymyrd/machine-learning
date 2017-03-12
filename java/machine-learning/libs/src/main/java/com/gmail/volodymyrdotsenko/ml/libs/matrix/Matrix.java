@@ -135,6 +135,30 @@ public final class Matrix {
         return new Matrix(getFactory(false).columns(values));
     }
 
+    public static Matrix from2Array(double[][] values) {
+        return new Matrix(getFactory(false).rows(values));
+    }
+
+    public double[][] to2Array() {
+        return matrix.toRawCopy2D();
+    }
+
+    public double[] toArrayByColumn() {
+        return matrix.toRawCopy1D();
+    }
+
+    public double[] toArrayByRow() {
+        final double[] retVal = new double[(int) matrix.count()];
+
+        int k = 0;
+        for (int i = 0; i < matrix.countRows(); i++) {
+            for (int j = 0; j < matrix.countColumns(); j++)
+                retVal[k++] = matrix.doubleValue(i, j);
+        }
+
+        return retVal;
+    }
+
     public Matrix getRowsRange(int first, int limit) {
         return new Matrix(matrix.getRowsRange(first, limit));
     }

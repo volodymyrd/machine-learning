@@ -103,16 +103,12 @@ public final class MinCjg implements IOptimizationAlgorithm {
         return nst;
     }
 
-    /**
-     * @return the postion of the minimum.
-     */
+    @Override
     public Matrix getMinPosition() {
         return x0;
     }
 
-    /**
-     * @return the function value at the minimum.
-     */
+    @Override
     public double getMinimum() {
         return fmin;
     }

@@ -126,6 +126,16 @@ public final class MinEnclose implements IOptimizationAlgorithm {
         return nstep;
     }
 
+    @Override
+    public Matrix getMinPosition() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public double getMinimum() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * @return 3 values (xa, xb, xc) of the variable a determining the interval containing the minimum.
      */
