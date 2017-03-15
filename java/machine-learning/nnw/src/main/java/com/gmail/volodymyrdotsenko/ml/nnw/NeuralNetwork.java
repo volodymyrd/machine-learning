@@ -2,6 +2,7 @@ package com.gmail.volodymyrdotsenko.ml.nnw;
 
 import com.gmail.volodymyrdotsenko.ml.libs.activation.Activation;
 import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
+import com.gmail.volodymyrdotsenko.ml.libs.optimalg.OptimizationAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ public abstract class NeuralNetwork {
 
     protected List<Layer> layers = new ArrayList<>();
     protected Activation activation;
+    protected Algorithm algorithm;
 
     public int layersNumber() {
         return layers.size();
@@ -39,10 +41,46 @@ public abstract class NeuralNetwork {
             return this;
         }
 
+        public <A extends Algorithm> Builder<? extends NeuralNetwork> algorithm(A algorithm) {
+            nnw.algorithm = algorithm;
+
+            return this;
+        }
+
         public <L extends Layer> Builder<? extends NeuralNetwork> layer(L layer) {
             nnw.layers.add(layer);
 
             return this;
+        }
+
+        public abstract static class AlgorithmBuilder<A extends Algorithm> {
+            protected final A algorithm;
+
+            protected AlgorithmBuilder(A algorithm) {
+                this.algorithm = algorithm;
+            }
+
+            AlgorithmBuilder<? extends Algorithm> algorithm(OptimizationAlgorithm algorithm) {
+                this.algorithm.algorithm = algorithm;
+
+                return this;
+            }
+
+            AlgorithmBuilder<? extends Algorithm> accuracy(double accuracy) {
+                this.algorithm.accuracy = accuracy;
+
+                return this;
+            }
+
+            AlgorithmBuilder<? extends Algorithm> maxStepNumber(int maxStepNumber) {
+                this.algorithm.maxStepNumber = maxStepNumber;
+
+                return this;
+            }
+
+            A build() {
+                return algorithm;
+            }
         }
 
         public abstract static class LayerBuilder<L extends Layer> {
@@ -77,6 +115,13 @@ public abstract class NeuralNetwork {
         protected String name;
         protected Activation activation;
     }
+
+    protected static class Algorithm {
+        protected OptimizationAlgorithm algorithm;
+        protected double accuracy;
+        protected int maxStepNumber;
+    }
+
 
     /**
      * Start training neural network

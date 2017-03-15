@@ -2,6 +2,7 @@ package com.gmail.volodymyrdotsenko.ml.nnw;
 
 import com.gmail.volodymyrdotsenko.ml.libs.activation.Activation;
 import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
+import com.gmail.volodymyrdotsenko.ml.libs.optimalg.OptimizationAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,10 +21,10 @@ public class FeedForwardNeuralNetworkTest {
         nnw = new FeedForwardNeuralNetwork
                 .Builder()
                 .layer(new FeedForwardNeuralNetwork.Builder.LayerBuilder()
-                                .name("input")
-                                .neurons(2)
-                                .weights(Matrix.parse("5 -10 1;-10 5 1;-5 10 -1"))
-                                .build())
+                        .name("input")
+                        .neurons(2)
+                        .weights(Matrix.parse("5 -10 1;-10 5 1;-5 10 -1"))
+                        .build())
                 .layer(new FeedForwardNeuralNetwork.Builder.LayerBuilder()
                         .name("hidden")
                         .neurons(3)
@@ -32,6 +33,11 @@ public class FeedForwardNeuralNetworkTest {
                 .layer(new FeedForwardNeuralNetwork.Builder.LayerBuilder()
                         .name("output")
                         .neurons(1)
+                        .build())
+                .algorithm(new FeedForwardNeuralNetwork.Builder.AlgorithmBuilder()
+                        .algorithm(OptimizationAlgorithm.CONJUGATE_GRADIENT)
+                        .accuracy(1e-3)
+                        .maxStepNumber(30)
                         .build())
                 .activation(Activation.SIGMOID)
                 .build();

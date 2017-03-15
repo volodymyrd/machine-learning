@@ -1,9 +1,17 @@
 package com.gmail.volodymyrdotsenko.ml.nnw;
 
 import com.gmail.volodymyrdotsenko.ml.libs.activation.Activation;
+import com.gmail.volodymyrdotsenko.ml.libs.functions.IFunction;
+import com.gmail.volodymyrdotsenko.ml.libs.functions.IGradient;
 import com.gmail.volodymyrdotsenko.ml.libs.matrix.Matrix;
+import com.gmail.volodymyrdotsenko.ml.libs.optimalg.IOptimizationAlgorithm;
+import com.gmail.volodymyrdotsenko.ml.libs.optimalg.MinCjg;
+import com.gmail.volodymyrdotsenko.ml.libs.optimalg.OptimizationAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -31,6 +39,33 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
         @Override
         public <L extends NeuralNetwork.Layer> Builder layer(L layer) {
             return (Builder) super.layer(layer);
+        }
+
+        @Override
+        public <A extends NeuralNetwork.Algorithm> Builder algorithm(A algorithm) {
+            return (Builder) super.algorithm(algorithm);
+        }
+
+        public static class AlgorithmBuilder extends NeuralNetwork.Builder.AlgorithmBuilder {
+
+            public AlgorithmBuilder() {
+                super(new Algorithm());
+            }
+
+            @Override
+            AlgorithmBuilder algorithm(OptimizationAlgorithm algorithm) {
+                return (AlgorithmBuilder) super.algorithm(algorithm);
+            }
+
+            @Override
+            AlgorithmBuilder accuracy(double accuracy) {
+                return (AlgorithmBuilder) super.accuracy(accuracy);
+            }
+
+            @Override
+            AlgorithmBuilder maxStepNumber(int maxStepNumber) {
+                return (AlgorithmBuilder) super.maxStepNumber(maxStepNumber);
+            }
         }
 
         public static class LayerBuilder extends NeuralNetwork.Builder.LayerBuilder {
@@ -123,6 +158,14 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
 
         init();
 
+
+        switch (algorithm.algorithm) {
+            case CONJUGATE_GRADIENT:
+                runConjugateGradient();
+                break;
+            default:
+                throw new RuntimeException("Unsupported optimization algorithm");
+        }
         Matrix calculatedOutput = forwardPropagation(inputWithBias);
     }
 
@@ -185,5 +228,32 @@ public final class FeedForwardNeuralNetwork extends NeuralNetwork {
         }
 
         return input;
+    }
+
+    private void runConjugateGradient() {
+        Map<IOptimizationAlgorithm.ParameterType, Object> params = new HashMap<>();
+        params.put(IOptimizationAlgorithm.ParameterType.GRADIENT, new backPropagationGradient());
+        params.put(IOptimizationAlgorithm.ParameterType.MAXIMAL_STEP_NUMBER, 0);
+        params.put(IOptimizationAlgorithm.ParameterType.EPSILON_ACCURACY, 0.);
+        params.put(IOptimizationAlgorithm.ParameterType.INITIAL_POINT, Matrix.parse("5; 6"));
+        params.put(IOptimizationAlgorithm.ParameterType.FUNCTION, new forwardPropagationFunction());
+        MinCjg cjg = new MinCjg();
+        cjg.compute(params);
+    }
+
+    class forwardPropagationFunction implements IFunction {
+
+        @Override
+        public double getValue(Matrix input) {
+            return 0;
+        }
+    }
+
+    class backPropagationGradient implements IGradient {
+
+        @Override
+        public Matrix getValue(IFunction function, Matrix input) {
+            return null;
+        }
     }
 }
