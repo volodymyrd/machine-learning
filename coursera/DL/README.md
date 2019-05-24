@@ -1,0 +1,2 @@
+-Run notebook
+jupyter notebook
